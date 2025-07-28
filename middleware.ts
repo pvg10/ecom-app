@@ -1,16 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("token")?.value;
+  try {
+    const token = request.cookies.get("token")?.value;
 
-  const publicPaths = ["/login", "/register"];
-  const isPublicPath = publicPaths.includes(request.nextUrl.pathname) || request.nextUrl.pathname.startsWith("/api");
+    const publicPaths = ["/login", "/register"];
+    const pathname = request.nextUrl.pathname;
+    const isPublicPath = publicPaths.includes(pathname) || pathname.startsWith("/api");
 
-  if (!token && !isPublicPath) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    if (!token && !isPublicPath) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    return NextResponse.next();
+  } catch (error) {
+    console.error("❌ Middleware error:", error);
+    return new NextResponse("Middleware failure", { status: 500 });
   }
-
-  return NextResponse.next();
 }
 
 export const config = {
