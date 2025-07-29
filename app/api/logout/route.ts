@@ -1,3 +1,5 @@
+export const runtime = "nodejs"; // ✅ Add this as the first line
+
 import { NextResponse } from "next/server";
 
 export async function POST() {

@@ -1,3 +1,5 @@
+export const runtime = "nodejs"; // ✅ Add this as the first line
+
 import dbConnect from "@/lib/mongodb";
 import Product from "@/models/Product";
 import { NextResponse } from "next/server";
